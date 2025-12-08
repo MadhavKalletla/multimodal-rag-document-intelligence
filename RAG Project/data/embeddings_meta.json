@@ -1,0 +1,10 @@
+{
+  "model": "sentence-transformers/all-MiniLM-L6-v2",
+  "device": "cpu",
+  "embedding_dim": 384,
+  "n_chunks": 1,
+  "dtype": "float32",
+  "max_seq_length": 512,
+  "batch_start": 64,
+  "source_file": "data/ocr_output.txt"
+}
