@@ -1,47 +1,27 @@
-Multi-Modal RAG Document Intelligence System
+Multimodal RAG Document Intelligence System
+A Retrieval-Augmented Generation system that answers user questions grounded in uploaded documents — supporting PDFs, scanned images, and raw text through a clean Streamlit interface.
+What it does
+Upload any document — digital PDF, scanned image, or plain text — ask a question, and get a context-aware answer generated directly from your document's content. No hallucination, no generic responses — every answer is backed by retrieved chunks from your actual files.
+Architecture
+Document → OCR / Text Extraction → Chunking (with overlap)
+→ Sentence-Transformer Embeddings → FAISS Index
+→ Semantic Top-K Retrieval → LLM Answer Generation → Streamlit UI
+Tech Stack
 
-A Retrieval-Augmented Generation (RAG) system that can analyze PDFs, scanned images (via OCR), and text documents to answer user questions with grounded, context-aware responses.
-Supports OCR → chunking → embeddings → vector search → LLM answer generation with a clean Streamlit UI.
+Python, Streamlit — pipeline logic and interactive UI
+LangChain — orchestration and chain management
+Sentence-Transformers — embedding generation
+FAISS — vector indexing and semantic search
+Tesseract OCR — text extraction from scanned and handwritten sources
+LLM APIs — answer generation from retrieved context
 
-🚀 Features
-
-Multi-modal document ingestion (Images + PDFs)
-
-OCR processing for scanned documents
-
-Text chunking with overlap
-
-Embedding generation using Sentence-Transformers / LLM embeddings
-
-Vector indexing with FAISS or Chroma
-
-Semantic search for top-K relevant chunks
-
-LLM-based answer generation using retrieved context
-
-Streamlit UI for interactive querying
-
-🧠 Architecture (Short Overview)
-Document → OCR/Text Extraction → Chunking → Embeddings → FAISS Index → Semantic Retrieval → LLM Answer
-🛠 Tech Stack
-
-Python, Streamlit
-
-LangChain, Sentence-Transformers
-
-FAISS / Chroma
-
-Tesseract OCR
-
-LLM APIs (OpenAI / others)
-▶️ Running the Project
-pip install -r requirements.txt
+Getting Started
+bashpip install -r requirements.txt
 streamlit run app.py
+Key Features
 
-📌 Future Improvements
-
-Better PDF parsing
-
-Multi-language OCR
-
-Improved monitoring for retrieval quality
+Multi-modal ingestion: PDFs, scanned images, and plain text
+OCR preprocessing for handwritten and scanned documents
+Overlapping text chunking for better context preservation
+FAISS vector search for fast, relevant chunk retrieval
+LLM answer generation grounded strictly in retrieved context
