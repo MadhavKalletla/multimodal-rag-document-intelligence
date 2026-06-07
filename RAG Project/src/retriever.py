@@ -1,25 +1,32 @@
 # src/retriever.py
-from typing import List, Dict, Any
-import os
-import chromadb
-from chromadb.config import Settings
+"""
+Retriever helper function routing queries to hybrid search.
+"""
 
-def get_collection(persist_dir: str = "vector_store",
-                   name: str = "docs_day4"):
-    client = chromadb.PersistentClient(path=persist_dir)
-    return client.get_collection(name=name)
+from typing import Dict, Any, List
+from src.constants import COLLECTION_NAME
+from src.vector_store import hybrid_query
 
-def retrieve_top_k(query: str, k: int = 4,
-                   persist_dir: str = "vector_store",
-                   name: str = "docs_day4") -> Dict[str, Any]:
-    col = get_collection(persist_dir, name)
-    # Chroma will embed query internally if the collection was created with embeddings.
-    res = col.query(query_texts=[query], n_results=k)
-    # Normalize into a simple list of (doc, meta, id)
-    out = []
-    ids = res.get("ids", [[]])[0]
-    docs = res.get("documents", [[]])[0]
-    metas = res.get("metadatas", [[]])[0]
+def retrieve_top_k(query_text: str, k: int = 4) -> Dict[str, Any]:
+    """
+    Query the database using hybrid search (BM25 + vector RRF) and
+    reformat the result list for compatibility.
+    """
+    res = hybrid_query(query_text, top_k=k)
+    
+    docs = res.get("documents", [])
+    metas = res.get("metadatas", [])
+    scores = res.get("scores", [])
+    
+    matches = []
     for i in range(len(docs)):
-        out.append({"id": ids[i], "doc": docs[i], "meta": metas[i]})
-    return {"matches": out}
+        # Generate an ID if not stored inside metadata
+        doc_id = metas[i].get("source", "unknown") + f"_chunk_{metas[i].get('chunk_index', i)}"
+        matches.append({
+            "id": doc_id,
+            "doc": docs[i],
+            "meta": metas[i],
+            "score": scores[i] if i < len(scores) else None
+        })
+        
+    return {"matches": matches}

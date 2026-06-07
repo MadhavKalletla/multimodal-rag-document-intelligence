@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  rag-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: multimodal-rag-container
+    ports:
+      - "7860:7860"
+    env_file:
+      - .env
+    volumes:
+      - ./vector_store:/app/vector_store
+    restart: always
