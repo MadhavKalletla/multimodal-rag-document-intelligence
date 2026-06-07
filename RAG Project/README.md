@@ -1,8 +1,5 @@
 # Production-Grade Multimodal RAG with Hybrid RRF Search & Claude API
 
-[![HuggingFace Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces)
-[![CI/CD Status](https://github.com/workflows/ci.yml/badge.svg)](https://github.com/)
-
 A production-grade, FAANG-level Multimodal RAG (Retrieval-Augmented Generation) system built for parsing complex, heterogenous documents and extracting high-fidelity answers. This project implements advanced vector database matching, keyword token indexing, Reciprocal Rank Fusion (RRF), and grounded answer synthesis powered by Anthropic's Claude API.
 
 ---
